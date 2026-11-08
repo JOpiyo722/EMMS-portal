@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EMMS - Exam Integrity Management System</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="app-header">
+        <div class="logo-container">
+            <h1>🛡️ EMMS Portal</h1>
+            <p>AI-Assisted Examination Integrity System</p>
+        </div>
+        <nav class="app-nav">
+            <button class="nav-btn active" data-target="scanner-section">📟 Invigilator Scan</button>
+            <button class="nav-btn" data-target="dashboard-section" id="load-dashboard-btn">🖥️ Operator Dashboard</button>
+            <button class="nav-btn" data-target="reports-section" id="load-reports-btn">📊 Lecturer Reports</button>
+        </nav>
+    </header>
+
+    <main class="app-content">
+        <!-- STEP 6: CORE SELECTED FEATURE - FORM & DEVICE SIMULATION -->
+        <section id="scanner-section" class="view-panel active">
+            <div class="panel-header">
+                <h2>Step 6 Selected Feature: Screening Entry Log</h2>
+                <p>Simulate hardware detection or manually toggle the hardware sensor output below.</p>
+            </div>
+            
+            <div class="scanner-grid">
+                <!-- Hardware Simulator Control Panel -->
+                <div class="card hardware-simulator">
+                    <h3>📟 NLJD Scanner Simulator</h3>
+                    <div class="hardware-status" id="hardware-status-display">READY TO SCAN</div>
+                    <div class="simulator-controls">
+                        <button type="button" class="sim-btn clear" id="sim-clear-btn">Simulate CLEAR</button>
+                        <button type="button" class="sim-btn beep" id="sim-beep-btn">Simulate BEEP (Device)</button>
+                    </div>
+                </div>
+
+                <!-- Invigilator Logging Form -->
+                <form id="screening-form" class="card form-card">
+                    <h3>Student Screening Log Form</h3>
+                    
+                    <div class="form-group">
+                        <label for="invigilatorId">Invigilator ID *</label>
+                        <input type="text" id="invigilatorId" required placeholder="e.g., INV-992">
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="studentName">Student Full Name *</label>
+                            <input type="text" id="studentName" required placeholder="John Doe">
+                        </div>
+                        <div class="form-group">
+                            <label for="regNo">Registration Number *</label>
+                            <input type="text" id="regNo" required placeholder="COM/0023/24">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="unitCode">Unit Code *</label>
+                        <input type="text" id="unitCode" required placeholder="e.g., ICS 2101">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Scan Status Result</label>
+                        <div class="radio-toggle-group">
+                            <label class="radio-label">
+                                <input type="radio" name="scanResult" value="CLEAR" checked id="radio-clear"> 
+                                <span class="custom-radio clear-style">🟢 CLEAR</span>
+                            </label>
+                            <label class="radio-label">
+                                <input type="radio" name="scanResult" value="BEEP" id="radio-beep"> 
+                                <span class="custom-radio beep-style">🔴 BEEP</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Conditional Malpractice Entry fields -->
+                    <div id="malpractice-details" class="conditional-fields hidden">
+                        <div class="form-group">
+                            <label for="deviceLocation">Device Location</label>
+                            <select id="deviceLocation">
+                                <option value="Pocket">Pocket</option>
+                                <option value="Bag">Bag</option>
+                                <option value="Socks/Shoes">Socks/Shoes</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="confiscated">Confiscated?</label>
+                            <select id="confiscated">
+                                <option value="Yes">Yes</option>
+                                <option value="No">No</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="submit-btn">Submit Log Entry</button>
+                </form>
+            </div>
+        </section>
+
+        <!-- F3: OPERATOR DASHBOARD -->
+        <section id="dashboard-section" class="view-panel">
+            <div class="panel-header">
+                <h2>F3: System Operator Log Registry</h2>
+                <p>Real-time look up and management audit trail of device logs.</p>
+            </div>
+            <div class="card table-card">
+                <div class="table-actions">
+                    <input type="text" id="search-input" placeholder="Search by Reg No, Name, or Unit...">
+                </div>
+                <div class="responsive-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Timestamp</th>
+                                <th>Reg No</th>
+                                <th>Name</th>
+                                <th>Unit</th>
+                                <th>Scan Result</th>
+                                <th>Details</th>
+                                <th>Invigilator</th>
+                            </tr>
+                        </thead>
+                        <tbody id="logs-table-body">
+                            <!-- Injected dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- F4: LECTURER REPORTS FOR UNIT AUDITING -->
+        <section id="reports-section" class="view-panel">
+            <div class="panel-header">
+                <h2>F4: Lecturer Summary Insights</h2>
+                <p>Review unit analytics to verify execution validity and genuine output profiles.</p>
+            </div>
+
+            <div class="stats-grid">
+                <div class="card stat-card">
+                    <div class="stat-num" id="stat-total">0</div>
+                    <div class="stat-label">Total Screened</div>
+                </div>
+                <div class="card stat-card clear-stat">
+                    <div class="stat-num" id="stat-cleared">0</div>
+                    <div class="stat-label">Cleared Smoothly</div>
+                </div>
+                <div class="card stat-card beep-stat">
+                    <div class="stat-num" id="stat-incidents">0</div>
+                    <div class="stat-label">Incidents Flaged</div>
+                </div>
+            </div>
+
+            <div class="card table-card">
+                <h3>Malpractice Summary Breakdown Per Unit</h3>
+                <div class="responsive-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Unit Code</th>
+                                <th>Total Student Scans</th>
+                                <th>Incidents Detected</th>
+                                <th>Integrity Rate</th>
+                            </tr>
+                        </thead>
+                        <tbody id="reports-table-body">
+                            <!-- Injected dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="app.js"></script>
+</body>
+</html>
